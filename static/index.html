@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Fashion AI Studio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at 15% 5%,
+                    rgba(126, 34, 206, 0.18),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 80% 30%,
+                    rgba(192, 38, 211, 0.06),
+                    transparent 25%
+                ),
+                #07070d;
+
+            color: #f5f5f7;
+
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            min-height: 100vh;
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+
+            background: #353545;
+
+            border-radius: 20px;
+        }
+
+
+        .glass {
+
+            background:
+                rgba(17, 17, 27, 0.88);
+
+            backdrop-filter:
+                blur(20px);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+        }
+
+
+        .gradient-button {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #c026d3
+                );
+        }
+
+
+        .gradient-text {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #c084fc
+                );
+
+            -webkit-background-clip:
+                text;
+
+            color: transparent;
+        }
+
+
+        .catalog-card {
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            position: relative;
+        }
+
+
+        .catalog-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.55
+                );
+
+            box-shadow:
+                0 20px 45px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.35
+                );
+        }
+
+
+        .selected-card {
+
+            border-color:
+                #a855f7 !important;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.18
+                );
+        }
+
+
+        .delete-button {
+
+            opacity: 0;
+
+            transform:
+                translateY(-4px);
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .catalog-card:hover
+        .delete-button {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        .message {
+
+            animation:
+                messageIn
+                0.25s ease;
+        }
+
+
+        @keyframes messageIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(8px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .modal-backdrop {
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.72
+                );
+
+            backdrop-filter:
+                blur(10px);
+        }
+
+
+        .quick-btn {
+
+            padding:
+                8px 12px;
+
+            border-radius:
+                999px;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.1
+                );
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.03
+                );
+
+            font-size:
+                11px;
+
+            color:
+                #a1a1aa;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .quick-btn:hover {
+
+            color:
+                #d8b4fe;
+
+            border-color:
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.4
+                );
+
+            background:
+                rgba(
+                    168,
+                    85,
+                    247,
+                    0.08
+                );
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ====================================================== -->
+<!-- HEADER -->
+<!-- ====================================================== -->
+
+<header
+    class="
+        h-[68px]
+        border-b
+        border-white/10
+        bg-[#0d0d16]/90
+        backdrop-blur-xl
+        sticky
+        top-0
+        z-40
+    "
+>
+
+    <div
+        class="
+            max-w-[1500px]
+            mx-auto
+            h-full
+            px-6
+            flex
+            items-center
+            justify-between
+        "
+    >
+
+        <div>
+
+            <h1
+                class="
+                    text-lg
+                    font-bold
+                    gradient-text
+                "
+            >
+                FASHION AI STUDIO
+            </h1>
+
+            <p
+                class="
+                    text-[9px]
+                    tracking-[0.35em]
+                    text-zinc-500
+                "
+            >
+                CONVERSATIONAL VISUAL INTELLIGENCE
+            </p>
+
+        </div>
+
+
+        <button
+            onclick="
+                document
+                .getElementById('uploadInput')
+                .click()
+            "
+            class="
+                gradient-button
+                px-5
+                py-2.5
+                rounded-xl
+                text-sm
+                font-semibold
+                hover:opacity-90
+                transition
+            "
+        >
+            + Add to catalog
+        </button>
+
+
+        <input
+            id="uploadInput"
+            type="file"
+            accept="image/*"
+            hidden
+            onchange="uploadImage(event)"
+        >
+
+    </div>
+
+</header>
+
+
+<!-- ====================================================== -->
+<!-- MAIN -->
+<!-- ====================================================== -->
+
+<main
+    class="
+        max-w-[1500px]
+        mx-auto
+        px-6
+        py-5
+        grid
+        grid-cols-1
+        xl:grid-cols-[1fr_400px]
+        gap-5
+    "
+>
+
+
+<!-- ====================================================== -->
+<!-- LEFT AREA -->
+<!-- ====================================================== -->
+
+<section>
+
+
+    <!-- SEARCH -->
+
+    <div
+        class="
+            glass
+            rounded-2xl
+            p-2
+            flex
+            gap-2
+            mb-6
+        "
+    >
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search naturally — black minimalist streetwear"
+            class="
+                flex-1
+                bg-transparent
+                px-4
+                py-3
+                outline-none
+                text-sm
+                placeholder:text-zinc-600
+            "
+            onkeydown="
+                if(event.key === 'Enter'){
+                    searchCatalog()
+                }
+            "
+        >
+
+
+        <button
+            onclick="searchCatalog()"
+            class="
+                px-6
+                rounded-xl
+                bg-white/10
+                hover:bg-white/15
+                text-sm
+                transition
+            "
+        >
+            Search
+        </button>
+
+    </div>
+
+
+    <!-- COLLECTION HEADER -->
+
+    <div
+        class="
+            flex
+            justify-between
+            items-end
+            mb-4
+        "
+    >
+
+        <div>
+
+            <h2
+                class="
+                    text-2xl
+                    font-semibold
+                "
+            >
+                Your collection
+            </h2>
+
+
+            <p
+                id="catalogStatus"
+                class="
+                    text-sm
+                    text-zinc-500
+                    mt-1
+                "
+            >
+                Loading catalog...
+            </p>
+
+        </div>
+
+
+        <div
+            id="selectedIndicator"
+            class="
+                hidden
+                text-xs
+                bg-purple-500/10
+                border
+                border-purple-500/20
+                text-purple-300
+                px-3
+                py-2
+                rounded-full
+                max-w-[320px]
+                truncate
+            "
+        >
+        </div>
+
+    </div>
+
+
+    <!-- GRID -->
+
+    <div
+        id="catalogGrid"
+        class="
+            grid
+            grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-4
+            gap-4
+        "
+    >
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- COPILOT -->
+<!-- ====================================================== -->
+
+<aside
+    class="
+        glass
+        rounded-3xl
+        overflow-hidden
+        h-[calc(100vh-110px)]
+        sticky
+        top-[88px]
+        flex
+        flex-col
+    "
+>
+
+
+    <!-- COPILOT HEADER -->
+
+    <div
+        class="
+            px-5
+            py-4
+            border-b
+            border-white/10
+            flex
+            items-center
+            gap-3
+        "
+    >
+
+        <div
+            class="
+                w-10
+                h-10
+                gradient-button
+                rounded-xl
+                flex
+                items-center
+                justify-center
+                font-bold
+            "
+        >
+            AI
+        </div>
+
+
+        <div>
+
+            <div class="font-semibold">
+                Fashion Copilot
+            </div>
+
+            <div
+                class="
+                    text-[11px]
+                    text-emerald-400
+                "
+            >
+                ● Ready
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div
+        id="chatMessages"
+        class="
+            flex-1
+            overflow-y-auto
+            p-5
+            space-y-4
+        "
+    >
+
+        <div
+            class="
+                message
+                bg-white/[0.07]
+                rounded-2xl
+                rounded-tl-md
+                p-4
+                text-sm
+                text-zinc-300
+                leading-relaxed
+            "
+        >
+
+            Select an image and tell me what
+            you want to do. I can analyze its
+            style, find similar pieces, build
+            an outfit, edit the image, or search
+            your catalog naturally.
+
+        </div>
+
+
+        <div
+            class="
+                flex
+                flex-wrap
+                gap-2
+            "
+        >
+
+            <button
+                class="quick-btn"
+                onclick="
+                    quickCommand(
+                        'Analyze this style'
+                    )
+                "
+            >
+                Analyze style
+            </button>
+
+
+            <button
+                class="quick-btn"
+                onclick="
+                    quickCommand(
+                        'Find similar items'
+                    )
+                "
+            >
+                Find similar
+            </button>
+
+
+            <button
+                class="quick-btn"
+                onclick="
+                    quickCommand(
+                        'Build an outfit around this'
+                    )
+                "
+            >
+                Build outfit
+            </button>
+
+
+            <button
+                class="quick-btn"
+                onclick="
+                    quickCommand(
+                        'Make this image brighter'
+                    )
+                "
+            >
+                Brighten
+            </button>
+
+
+            <button
+                class="quick-btn"
+                onclick="
+                    quickCommand(
+                        'Make this black and white'
+                    )
+                "
+            >
+                B&W
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHAT INPUT -->
+
+    <div
+        class="
+            p-4
+            border-t
+            border-white/10
+        "
+    >
+
+        <div
+            class="
+                flex
+                items-center
+                gap-2
+                rounded-2xl
+                border
+                border-white/10
+                bg-white/[0.03]
+                p-2
+            "
+        >
+
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Ask Fashion AI anything..."
+                class="
+                    flex-1
+                    bg-transparent
+                    px-2
+                    py-2
+                    outline-none
+                    text-sm
+                "
+                onkeydown="
+                    if(event.key === 'Enter'){
+                        sendChat()
+                    }
+                "
+            >
+
+
+            <button
+                onclick="sendChat()"
+                class="
+                    gradient-button
+                    w-10
+                    h-10
+                    rounded-xl
+                    font-bold
+                "
+            >
+                ↑
+            </button>
+
+        </div>
+
+
+        <div
+            class="
+                text-center
+                text-[9px]
+                text-zinc-600
+                mt-2
+            "
+        >
+            CLIP • FastAPI • Pillow • Conversational AI
+        </div>
+
+    </div>
+
+</aside>
+
+</main>
+
+
+<!-- ====================================================== -->
+<!-- DELETE CONFIRMATION MODAL -->
+<!-- ====================================================== -->
+
+<div
+    id="deleteModal"
+    class="
+        hidden
+        fixed
+        inset-0
+        z-[100]
+        modal-backdrop
+        items-center
+        justify-center
+        px-4
+    "
+>
+
+    <div
+        class="
+            glass
+            w-full
+            max-w-md
+            rounded-3xl
+            p-6
+            shadow-2xl
+        "
+    >
+
+        <div
+            class="
+                w-12
+                h-12
+                rounded-2xl
+                bg-red-500/10
+                border
+                border-red-500/20
+                flex
+                items-center
+                justify-center
+                text-xl
+                mb-4
+            "
+        >
+            🗑
+        </div>
+
+
+        <h3
+            class="
+                text-xl
+                font-semibold
+            "
+        >
+            Delete image?
+        </h3>
+
+
+        <p
+            class="
+                text-sm
+                text-zinc-400
+                mt-2
+                leading-relaxed
+            "
+        >
+
+            This will permanently remove
+
+            <span
+                id="deleteFilename"
+                class="
+                    text-zinc-200
+                    font-medium
+                "
+            >
+            </span>
+
+            from the catalog.
+
+        </p>
+
+
+        <div
+            class="
+                flex
+                justify-end
+                gap-3
+                mt-6
+            "
+        >
+
+            <button
+                onclick="closeDeleteModal()"
+                class="
+                    px-4
+                    py-2.5
+                    rounded-xl
+                    bg-white/5
+                    border
+                    border-white/10
+                    text-sm
+                    hover:bg-white/10
+                    transition
+                "
+            >
+                Cancel
+            </button>
+
+
+            <button
+                id="confirmDeleteButton"
+                onclick="confirmDelete()"
+                class="
+                    px-4
+                    py-2.5
+                    rounded-xl
+                    bg-red-600
+                    hover:bg-red-500
+                    text-sm
+                    font-semibold
+                    transition
+                "
+            >
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* ==========================================================
+   STATE
+========================================================== */
+
+let catalogItems = [];
+
+let selectedItemId = null;
+
+let pendingDeleteId = null;
+
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        text ?? "";
+
+    return div.innerHTML;
+}
+
+
+function scrollChat() {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+    container.scrollTop =
+        container.scrollHeight;
+}
+
+
+/* ==========================================================
+   LOAD CATALOG
+========================================================== */
+
+async function loadCatalog() {
+
+    const status =
+        document.getElementById(
+            "catalogStatus"
+        );
+
+    const grid =
+        document.getElementById(
+            "catalogGrid"
+        );
+
+
+    status.textContent =
+        "Loading catalog...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/items",
+                {
+                    cache:
+                        "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "Invalid catalog response."
+            );
+        }
+
+
+        catalogItems =
+            data;
+
+
+        /*
+        If selected item disappeared after
+        deletion/resync, clear selection.
+        */
+
+        if (
+            selectedItemId !== null
+            &&
+            !catalogItems.some(
+                item =>
+                    Number(item.id)
+                    === Number(selectedItemId)
+            )
+        ) {
+
+            clearSelection();
+        }
+
+
+        renderCatalog(
+            catalogItems
+        );
+
+
+        status.textContent =
+            `${catalogItems.length} items indexed with CLIP`;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Catalog error:",
+            error
+        );
+
+
+        status.textContent =
+            "Could not load catalog.";
+
+
+        grid.innerHTML = `
+
+            <div
+                class="
+                    col-span-full
+                    border
+                    border-red-500/20
+                    bg-red-500/5
+                    rounded-2xl
+                    p-5
+                    text-red-300
+                    text-sm
+                "
+            >
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+        `;
+    }
+
+}
+
+
+/* ==========================================================
+   RENDER CATALOG
+========================================================== */
+
+function renderCatalog(items) {
+
+    const grid =
+        document.getElementById(
+            "catalogGrid"
+        );
+
+
+    grid.innerHTML =
+        "";
+
+
+    if (!items.length) {
+
+        grid.innerHTML = `
+
+            <div
+                class="
+                    col-span-full
+                    border
+                    border-dashed
+                    border-white/10
+                    rounded-3xl
+                    p-12
+                    text-center
+                "
+            >
+
+                <div
+                    class="
+                        text-lg
+                        font-medium
+                        text-zinc-300
+                    "
+                >
+                    Your catalog is empty
+                </div>
+
+
+                <div
+                    class="
+                        text-sm
+                        text-zinc-500
+                        mt-2
+                    "
+                >
+                    Add a fashion image to begin.
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    items.forEach(
+        item => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.dataset.itemId =
+                item.id;
+
+
+            card.className = `
+                catalog-card
+                glass
+                rounded-2xl
+                overflow-hidden
+                border
+                border-white/[0.08]
+                cursor-pointer
+            `;
+
+
+            if (
+                Number(selectedItemId)
+                === Number(item.id)
+            ) {
+
+                card.classList.add(
+                    "selected-card"
+                );
+            }
+
+
+            card.innerHTML = `
+
+                <div
+                    class="
+                        aspect-[4/5]
+                        bg-zinc-900
+                        overflow-hidden
+                        relative
+                    "
+                >
+
+                    <img
+                        src="${item.image_url}"
+                        alt="${escapeHtml(
+                            item.filename
+                        )}"
+                        class="
+                            w-full
+                            h-full
+                            object-cover
+                            transition
+                            duration-500
+                            hover:scale-105
+                        "
+                    >
+
+
+                    <div
+                        class="
+                            absolute
+                            top-3
+                            left-3
+                            bg-black/65
+                            backdrop-blur
+                            rounded-full
+                            px-2.5
+                            py-1
+                            text-[10px]
+                            text-zinc-300
+                        "
+                    >
+                        CLIP
+                    </div>
+
+
+                    <button
+                        type="button"
+
+                        class="
+                            delete-button
+                            absolute
+                            top-3
+                            right-3
+                            w-9
+                            h-9
+                            rounded-xl
+                            bg-red-600/90
+                            hover:bg-red-500
+                            shadow-lg
+                            flex
+                            items-center
+                            justify-center
+                            text-sm
+                            z-20
+                        "
+
+                        title="Delete image"
+
+                        onclick="
+                            event.stopPropagation();
+                            openDeleteModal(
+                                ${Number(item.id)}
+                            );
+                        "
+                    >
+                        🗑
+                    </button>
+
+
+                    ${
+                        Number(selectedItemId)
+                        === Number(item.id)
+
+                        ? `
+
+                            <div
+                                class="
+                                    absolute
+                                    bottom-3
+                                    left-3
+                                    bg-purple-600
+                                    rounded-full
+                                    px-3
+                                    py-1
+                                    text-[10px]
+                                    font-semibold
+                                "
+                            >
+                                Selected
+                            </div>
+
+                        `
+
+                        : ""
+                    }
+
+                </div>
+
+
+                <div class="p-3">
+
+                    <div
+                        class="
+                            text-sm
+                            font-medium
+                            truncate
+                        "
+                    >
+                        ${escapeHtml(
+                            item.filename
+                        )}
+                    </div>
+
+
+                    <div
+                        class="
+                            text-[11px]
+                            text-zinc-500
+                            mt-1
+                        "
+                    >
+                        Click to work with image
+                    </div>
+
+                </div>
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    selectItem(
+                        item
+                    );
+                }
+            );
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================================
+   SELECT ITEM
+========================================================== */
+
+function selectItem(item) {
+
+    selectedItemId =
+        Number(
+            item.id
+        );
+
+
+    renderCatalog(
+        catalogItems
+    );
+
+
+    const indicator =
+        document.getElementById(
+            "selectedIndicator"
+        );
+
+
+    indicator.classList.remove(
+        "hidden"
+    );
+
+
+    indicator.textContent =
+        `Selected: ${item.filename}`;
+
+
+    addAssistantMessage(`
+
+        <div
+            class="
+                flex
+                gap-3
+                items-center
+            "
+        >
+
+            <img
+                src="${item.image_url}"
+                class="
+                    w-16
+                    h-16
+                    object-cover
+                    rounded-xl
+                    border
+                    border-white/10
+                "
+            >
+
+
+            <div>
+
+                <div
+                    class="
+                        font-medium
+                        text-zinc-100
+                    "
+                >
+                    Image selected
+                </div>
+
+
+                <div
+                    class="
+                        text-xs
+                        text-zinc-400
+                        mt-1
+                        break-all
+                    "
+                >
+                    ${escapeHtml(
+                        item.filename
+                    )}
+                </div>
+
+
+                <div
+                    class="
+                        text-xs
+                        text-purple-300
+                        mt-1
+                    "
+                >
+                    Analyze, match, edit or build an outfit.
+                </div>
+
+            </div>
+
+        </div>
+    `);
+
+}
+
+
+/* ==========================================================
+   CLEAR SELECTION
+========================================================== */
+
+function clearSelection() {
+
+    selectedItemId =
+        null;
+
+
+    const indicator =
+        document.getElementById(
+            "selectedIndicator"
+        );
+
+
+    indicator.classList.add(
+        "hidden"
+    );
+
+
+    indicator.textContent =
+        "";
+
+}
+
+
+/* ==========================================================
+   DELETE MODAL
+========================================================== */
+
+function openDeleteModal(itemId) {
+
+    const item =
+        catalogItems.find(
+            current =>
+                Number(current.id)
+                === Number(itemId)
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    pendingDeleteId =
+        Number(itemId);
+
+
+    document.getElementById(
+        "deleteFilename"
+    ).textContent =
+        item.filename;
+
+
+    const modal =
+        document.getElementById(
+            "deleteModal"
+        );
+
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+
+    modal.classList.add(
+        "flex"
+    );
+
+}
+
+
+function closeDeleteModal() {
+
+    pendingDeleteId =
+        null;
+
+
+    const modal =
+        document.getElementById(
+            "deleteModal"
+        );
+
+
+    modal.classList.add(
+        "hidden"
+    );
+
+
+    modal.classList.remove(
+        "flex"
+    );
+
+}
+
+
+/* ==========================================================
+   DELETE IMAGE
+========================================================== */
+
+async function confirmDelete() {
+
+    if (
+        pendingDeleteId === null
+    ) {
+
+        return;
+    }
+
+
+    const itemId =
+        pendingDeleteId;
+
+
+    const item =
+        catalogItems.find(
+            current =>
+                Number(current.id)
+                === Number(itemId)
+        );
+
+
+    const button =
+        document.getElementById(
+            "confirmDeleteButton"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Deleting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/items/${itemId}`,
+                {
+                    method:
+                        "DELETE"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+                || "Delete failed."
+            );
+        }
+
+
+        /*
+        Clear active selection if the
+        deleted image was selected.
+        */
+
+        if (
+            Number(selectedItemId)
+            === Number(itemId)
+        ) {
+
+            clearSelection();
+        }
+
+
+        closeDeleteModal();
+
+
+        await loadCatalog();
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    flex
+                    gap-2
+                    items-start
+                "
+            >
+
+                <span
+                    class="
+                        text-emerald-400
+                    "
+                >
+                    ✓
+                </span>
+
+
+                <div>
+
+                    <div
+                        class="
+                            text-zinc-200
+                        "
+                    >
+                        Image removed from catalog.
+                    </div>
+
+
+                    ${
+                        item
+
+                        ? `
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-zinc-500
+                                    mt-1
+                                "
+                            >
+                                ${escapeHtml(
+                                    item.filename
+                                )}
+                            </div>
+
+                        `
+
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+        `);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    text-red-300
+                "
+            >
+                Delete failed:
+                ${escapeHtml(
+                    error.message
+                )}
+            </div>
+        `);
+
+
+        closeDeleteModal();
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "Delete";
+
+    }
+
+}
+
+
+/* ==========================================================
+   CHAT UI
+========================================================== */
+
+function addUserMessage(text) {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+
+    message.className = `
+        message
+        ml-10
+        gradient-button
+        rounded-2xl
+        rounded-tr-md
+        p-3
+        text-sm
+    `;
+
+
+    message.textContent =
+        text;
+
+
+    container.appendChild(
+        message
+    );
+
+
+    scrollChat();
+
+}
+
+
+function addAssistantMessage(html) {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+
+    message.className = `
+        message
+        bg-white/[0.07]
+        rounded-2xl
+        rounded-tl-md
+        p-4
+        text-sm
+        text-zinc-300
+    `;
+
+
+    message.innerHTML =
+        html;
+
+
+    container.appendChild(
+        message
+    );
+
+
+    scrollChat();
+
+}
+
+
+/* ==========================================================
+   THINKING INDICATOR
+========================================================== */
+
+function showThinking() {
+
+    hideThinking();
+
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.id =
+        "thinkingMessage";
+
+
+    element.className = `
+        message
+        bg-white/[0.05]
+        rounded-2xl
+        p-4
+        text-sm
+        text-zinc-400
+    `;
+
+
+    element.textContent =
+        "● Fashion AI is thinking...";
+
+
+    container.appendChild(
+        element
+    );
+
+
+    scrollChat();
+
+}
+
+
+function hideThinking() {
+
+    const element =
+        document.getElementById(
+            "thinkingMessage"
+        );
+
+
+    if (element) {
+
+        element.remove();
+    }
+
+}
+
+
+/* ==========================================================
+   CHAT REQUEST
+========================================================== */
+
+async function sendChat(
+    providedMessage = null
+) {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    const message =
+        (
+            providedMessage
+            ?? input.value
+        ).trim();
+
+
+    if (!message) {
+
+        return;
+    }
+
+
+    input.value =
+        "";
+
+
+    addUserMessage(
+        message
+    );
+
+
+    showThinking();
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chat",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            {
+                                message:
+                                    message,
+
+                                item_id:
+                                    selectedItemId
+                            }
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+                || "Chat request failed."
+            );
+        }
+
+
+        hideThinking();
+
+
+        renderChatResult(
+            data
+        );
+
+    }
+
+    catch (error) {
+
+        hideThinking();
+
+
+        console.error(
+            "Chat error:",
+            error
+        );
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    text-red-300
+                "
+            >
+                ${escapeHtml(
+                    error.message
+                )}
+            </div>
+        `);
+
+    }
+
+}
+
+
+function quickCommand(
+    message
+) {
+
+    sendChat(
+        message
+    );
+
+}
+
+
+/* ==========================================================
+   CHAT RESULTS
+========================================================== */
+
+function renderChatResult(data) {
+
+    let html = `
+
+        <div
+            class="
+                leading-relaxed
+            "
+        >
+            ${escapeHtml(
+                data.message
+                || "Done."
+            )}
+        </div>
+    `;
+
+
+    if (
+        data.analysis
+    ) {
+
+        const analysis =
+            data.analysis;
+
+
+        html += `
+
+            <div
+                class="
+                    grid
+                    grid-cols-2
+                    gap-2
+                    mt-4
+                "
+            >
+
+                ${analysisBadge(
+                    "Style",
+                    analysis.style
+                )}
+
+                ${analysisBadge(
+                    "Category",
+                    analysis.category
+                )}
+
+                ${analysisBadge(
+                    "Color",
+                    analysis.color
+                )}
+
+                ${analysisBadge(
+                    "Season",
+                    analysis.season
+                )}
+
+                ${analysisBadge(
+                    "Occasion",
+                    analysis.occasion
+                )}
+
+                ${analysisBadge(
+                    "Style score",
+                    analysis.style_score
+                    !== undefined
+
+                    ? `${analysis.style_score}%`
+
+                    : "—"
+                )}
+
+            </div>
+        `;
+
+    }
+
+
+    if (
+        Array.isArray(
+            data.items
+        )
+        &&
+        data.items.length
+    ) {
+
+        html +=
+            renderResultItems(
+                data.items
+            );
+
+    }
+
+
+    if (
+        data.image_url
+    ) {
+
+        html += `
+
+            <div
+                class="
+                    mt-4
+                "
+            >
+
+                <img
+                    src="${data.image_url}?t=${Date.now()}"
+                    class="
+                        w-full
+                        max-h-[380px]
+                        object-contain
+                        bg-black
+                        rounded-2xl
+                        border
+                        border-white/10
+                    "
+                >
+
+
+                <div
+                    class="
+                        text-xs
+                        text-emerald-400
+                        mt-2
+                    "
+                >
+                    ✓ Edited image generated
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    addAssistantMessage(
+        html
+    );
+
+}
+
+
+/* ==========================================================
+   ANALYSIS BADGE
+========================================================== */
+
+function analysisBadge(
+    label,
+    value
+) {
+
+    return `
+
+        <div
+            class="
+                bg-black/25
+                border
+                border-white/[0.07]
+                rounded-xl
+                p-3
+            "
+        >
+
+            <div
+                class="
+                    text-[10px]
+                    uppercase
+                    tracking-wider
+                    text-zinc-500
+                "
+            >
+                ${escapeHtml(
+                    label
+                )}
+            </div>
+
+
+            <div
+                class="
+                    text-xs
+                    font-medium
+                    text-zinc-200
+                    mt-1
+                "
+            >
+                ${escapeHtml(
+                    String(
+                        value ?? "—"
+                    )
+                )}
+            </div>
+
+        </div>
+    `;
+
+}
+
+
+/* ==========================================================
+   RESULT CARDS
+========================================================== */
+
+function renderResultItems(
+    items
+) {
+
+    let html = `
+
+        <div
+            class="
+                grid
+                grid-cols-2
+                gap-2
+                mt-4
+            "
+        >
+    `;
+
+
+    items.forEach(
+        item => {
+
+            html += `
+
+                <button
+                    onclick="
+                        selectResultItem(
+                            ${Number(item.id)}
+                        )
+                    "
+                    class="
+                        text-left
+                        bg-black/25
+                        border
+                        border-white/[0.07]
+                        hover:border-purple-500/50
+                        rounded-xl
+                        overflow-hidden
+                        transition
+                    "
+                >
+
+                    <img
+                        src="${item.image_url}"
+                        class="
+                            w-full
+                            h-28
+                            object-cover
+                        "
+                    >
+
+
+                    <div class="p-2">
+
+                        <div
+                            class="
+                                text-[11px]
+                                truncate
+                            "
+                        >
+                            ${escapeHtml(
+                                item.filename
+                            )}
+                        </div>
+
+
+                        ${
+                            item.score
+                            !== undefined
+
+                            ? `
+
+                                <div
+                                    class="
+                                        text-[10px]
+                                        text-purple-300
+                                        mt-1
+                                    "
+                                >
+                                    ${item.score}% match
+                                </div>
+
+                            `
+
+                            : ""
+                        }
+
+                    </div>
+
+                </button>
+            `;
+
+        }
+    );
+
+
+    html +=
+        "</div>";
+
+
+    return html;
+
+}
+
+
+/* ==========================================================
+   SELECT SEARCH/CHAT RESULT
+========================================================== */
+
+function selectResultItem(id) {
+
+    const item =
+        catalogItems.find(
+            current =>
+                Number(current.id)
+                === Number(id)
+        );
+
+
+    if (item) {
+
+        selectItem(
+            item
+        );
+    }
+
+}
+
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+async function searchCatalog() {
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    const query =
+        input.value.trim();
+
+
+    if (!query) {
+
+        return;
+    }
+
+
+    addUserMessage(
+        `Search: ${query}`
+    );
+
+
+    showThinking();
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/search",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            {
+                                query:
+                                    query,
+
+                                limit:
+                                    8
+                            }
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+                || "Search failed."
+            );
+        }
+
+
+        hideThinking();
+
+
+        addAssistantMessage(`
+
+            <div>
+
+                Closest catalog matches for
+
+                <span
+                    class="
+                        text-purple-300
+                    "
+                >
+                    “${escapeHtml(
+                        query
+                    )}”
+                </span>.
+
+            </div>
+
+
+            ${renderResultItems(
+                data.items
+                || []
+            )}
+        `);
+
+    }
+
+    catch (error) {
+
+        hideThinking();
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    text-red-300
+                "
+            >
+                ${escapeHtml(
+                    error.message
+                )}
+            </div>
+        `);
+
+    }
+
+}
+
+
+/* ==========================================================
+   UPLOAD
+========================================================== */
+
+async function uploadImage(
+    event
+) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file) {
+
+        return;
+    }
+
+
+    addAssistantMessage(
+        "Adding the image to your catalog and indexing it with CLIP..."
+    );
+
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "file",
+        file
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/upload",
+                {
+
+                    method:
+                        "POST",
+
+                    body:
+                        formData
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail
+                || "Upload failed."
+            );
+        }
+
+
+        await loadCatalog();
+
+
+        if (
+            data.item
+        ) {
+
+            const uploaded =
+                catalogItems.find(
+                    item =>
+                        item.filename
+                        ===
+                        data.item.filename
+                );
+
+
+            if (uploaded) {
+
+                selectItem(
+                    uploaded
+                );
+            }
+
+        }
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    text-emerald-400
+                "
+            >
+                ✓ Image uploaded and indexed successfully.
+            </div>
+        `);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Upload error:",
+            error
+        );
+
+
+        addAssistantMessage(`
+
+            <div
+                class="
+                    text-red-300
+                "
+            >
+                Upload failed:
+                ${escapeHtml(
+                    error.message
+                )}
+            </div>
+        `);
+
+    }
+
+
+    event.target.value =
+        "";
+
+}
+
+
+/* ==========================================================
+   CLOSE MODAL BY CLICKING BACKDROP
+========================================================== */
+
+document
+    .getElementById(
+        "deleteModal"
+    )
+    .addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target.id
+                === "deleteModal"
+            ) {
+
+                closeDeleteModal();
+            }
+
+        }
+    );
+
+
+/* ==========================================================
+   ESC CLOSES MODAL
+========================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key
+            === "Escape"
+        ) {
+
+            closeDeleteModal();
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   INITIALIZATION
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        loadCatalog();
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
